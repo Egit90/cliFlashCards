@@ -12,15 +12,15 @@ This is a command-line quiz application that tests your knowledge of Linux comma
     - Clone the repository or download the source code.
     - Navigate to the project directory in your terminal.
     
-    ```bash
-        go run main.go 
-    ```
+```bash
+   go run main.go 
+```
 
    or You can use your own question bank
 
-    ```bash
-        go run main.go -json <filename.json> -limit <time_in_seconds>
-    ```
+```bash
+   go run main.go -json <filename.json> -limit <time_in_seconds>
+```
 
 # JSON Format
 The quiz problems are defined in a JSON file, where each problem has the following structure:
