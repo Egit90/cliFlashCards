@@ -1,7 +1,8 @@
 package main
 
 import (
-	"encoding/csv"
+	"bufio"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"math/rand"
@@ -12,12 +13,18 @@ import (
 )
 
 type AnswerInput interface {
-	GetAnswer() string
+	GetAnswer() cliResponse
 }
 
 type problem struct {
-	question string
-	answer   string
+	Command     string
+	Description string
+	Examples    []string
+}
+
+type cliResponse struct {
+	str   string
+	Error error
 }
 
 type Quiz struct {
@@ -29,30 +36,36 @@ type Quiz struct {
 
 type CommandLineInput struct{}
 
-func (cli CommandLineInput) GetAnswer() string {
-	var answer string
-	fmt.Scanf("%s\n", &answer)
-	return answer
+func (cli CommandLineInput) GetAnswer() cliResponse {
+	reader := bufio.NewReader(os.Stdin)
+
+	answer, err := reader.ReadString('\n')
+
+	if err != nil {
+		return cliResponse{str: "", Error: err}
+	}
+
+	return cliResponse{str: strings.TrimSpace(answer), Error: nil}
 }
 
-func NewQuiz(csvFilename string, timeLimit int, answerInput AnswerInput) (*Quiz, error) {
-	file, err := os.Open(csvFilename)
+func NewQuiz(Filename string, timeLimit int, answerInput AnswerInput) (*Quiz, error) {
+	file, err := os.ReadFile(Filename)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to open the CSV file %s\n", csvFilename)
+		return nil, fmt.Errorf("Failed to open the Json file %s\n", Filename)
 	}
 
-	r := csv.NewReader(file)
-	lines, err := r.ReadAll()
+	var problemSet []problem
+
+	err = json.Unmarshal(file, &problemSet)
 
 	if err != nil {
-		return nil, fmt.Errorf("Failed to parse CSV file")
+		return nil, fmt.Errorf("Failed to parse Json file, %s", err)
 	}
 
-	Shuffle(lines)
-	problems := parseLines(lines)
+	Shuffle(problemSet)
 
 	return &Quiz{
-		problems:    problems,
+		problems:    problemSet,
 		timeLimit:   time.Duration(timeLimit) * time.Second,
 		timer:       time.NewTimer(time.Duration(timeLimit) * time.Second),
 		answerInput: answerInput,
@@ -62,35 +75,41 @@ func NewQuiz(csvFilename string, timeLimit int, answerInput AnswerInput) (*Quiz,
 func (q *Quiz) Run() {
 	counter := 0
 	for i, p := range q.problems {
-		fmt.Printf("Problem #%d: %s = \n", i+1, p.question)
+		fmt.Printf("Problem #%d: %s = \n", i+1, p.Description)
 
-		answerCh := make(chan string)
+		answerCh := make(chan cliResponse)
 
 		go func() {
-			answer := q.answerInput.GetAnswer()
-			answerCh <- answer
+			Res := q.answerInput.GetAnswer()
+			answerCh <- Res
 		}()
-
 		select {
 		case <-q.timer.C:
+			fmt.Println("Time is out 🕥")
 			fmt.Printf("You Scored %d out of %d\n", counter, len(q.problems))
 			return
 		case answer := <-answerCh:
-			if answer == p.answer {
-				fmt.Println("Correct!")
+			if answer.Error != nil {
+				println("Coundn't Read Input , ", answer.Error)
+			} else if answer.str == p.Command {
+				fmt.Println("Correct!✔️")
+				fmt.Printf("Example Usage: %s \n", p.Examples)
 				counter++
+			} else {
+				fmt.Printf("wrong ❌. Correct answer is %s \nExample %s \n", p.Command, strings.Join(p.Examples, " "))
 			}
 		}
+		fmt.Println("🆕 🆕 🆕 🆕 🆕 🆕 🆕 ")
 	}
 	fmt.Printf("You Scored %d out of %d\n", counter, len(q.problems))
 }
 
 func main() {
-	csvFilename := flag.String("csv", "problems.csv", "a csv file in format of 'problem,answer' ")
-	timeLimit := flag.Int("limit", 5, "Provide time limit for quiz in seconds")
+	Filename := flag.String("json", "bank.json", "a json file in format of 'problem,answer' ")
+	timeLimit := flag.Int("limit", 60, "Provide time limit for quiz in seconds")
 	flag.Parse()
 
-	quiz, err := NewQuiz(*csvFilename, *timeLimit, CommandLineInput{})
+	quiz, err := NewQuiz(*Filename, *timeLimit, CommandLineInput{})
 	if err != nil {
 		exit(err.Error())
 	}
@@ -107,16 +126,6 @@ func Shuffle(slice interface{}) {
 	rand.Shuffle(length, func(i, j int) {
 		swap(i, j)
 	})
-}
-func parseLines(lines [][]string) []problem {
-	ret := make([]problem, len(lines))
-	for i, line := range lines {
-		ret[i] = problem{
-			question: line[0],
-			answer:   strings.TrimSpace(line[1]),
-		}
-	}
-	return ret
 }
 
 func exit(msg string) {

@@ -1,0 +1,187 @@
+[
+  {
+    "Command": "ls -l",
+    "Description": "List files and directories. Long format listing.",
+    "Examples": ["ls -l"]
+  },
+  {
+    "Command": "ls -a",
+    "Description": "List files and directories. Include hidden files.",
+    "Examples": ["ls -a"]
+  },
+  {
+    "Command": "ls -h",
+    "Description": "List files and directories. Human-readable file sizes.",
+    "Examples": ["ls -lh"]
+  },
+  {
+    "Command": "cd",
+    "Description": "Change directory.",
+    "Examples": ["cd /path/to/directory"]
+  },
+  {
+    "Command": "pwd",
+    "Description": "Print current working directory.",
+    "Examples": ["pwd"]
+  },
+  {
+    "Command": "mkdir",
+    "Description": "Create a new directory.",
+    "Examples": ["mkdir my_directory"]
+  },
+  {
+    "Command": "rm -r",
+    "Description": "Remove files and directories. Remove directories recursively.",
+    "Examples": ["rm -r my_directory"]
+  },
+  {
+    "Command": "rm -f",
+    "Description": "Remove files and directories. Force removal without confirmation.",
+    "Examples": ["rm -f file.txt"]
+  },
+  {
+    "Command": "cp -r",
+    "Description": "Copy files and directories. Copy directories recursively.",
+    "Examples": ["cp -r directory destination"]
+  },
+  {
+    "Command": "cp",
+    "Description": "Copy files and directories.",
+    "Examples": ["cp file.txt destination"]
+  },
+  {
+    "Command": "mv",
+    "Description": "Move/rename files and directories.",
+    "Examples": ["mv file.txt new_name.txt", "mv file.txt directory"]
+  },
+  {
+    "Command": "touch",
+    "Description": "Create an empty file or update file timestamps.",
+    "Examples": ["touch file.txt"]
+  },
+  {
+    "Command": "cat",
+    "Description": "View the contents of a file.",
+    "Examples": ["cat file.txt"]
+  },
+  {
+    "Command": "head -n",
+    "Description": "Display the first few lines of a file. Specify the number of lines to display.",
+    "Examples": ["head file.txt", "head -n 5 file.txt"]
+  },
+  {
+    "Command": "tail -n",
+    "Description": "Display the last few lines of a file. Specify the number of lines to display.",
+    "Examples": ["tail file.txt", "tail -n 5 file.txt"]
+  },
+  {
+    "Command": "ln -s",
+    "Description": "Create links between files. Create symbolic (soft) links.",
+    "Examples": ["ln -s source_file link_name"]
+  },
+  {
+    "Command": "find -name",
+    "Description": "Search for files and directories. Search by filename.",
+    "Examples": ["find /path/to/search -name \"*.txt\""]
+  },
+  {
+    "Command": "find -type",
+    "Description": "Search for files and directories. Search by file type.",
+    "Examples": ["find /path/to/search -type f"]
+  },
+    {
+    "Command": "ps -aux",
+    "Description": "Display running processes. Show all processes.",
+    "Examples": ["ps aux"]
+  },
+  {
+    "Command": "top",
+    "Description": "Monitor system processes in real-time.",
+    "Examples": ["top"]
+  },
+  {
+    "Command": "kill -9 PID",
+    "Description": "Terminate a process. Forcefully kill a process.",
+    "Examples": ["kill 1234"]
+  },
+  {
+    "Command": "pkill",
+    "Description": "Terminate processes based on their name.",
+    "Examples": ["pkill firefox"]
+  },
+  {
+    "Command": "pgrep",
+    "Description": "List processes based on their name.",
+    "Examples": ["pgrep chrome"]
+  },
+  {
+    "Command": "grep -i “hello” file.txt",
+    "Description": "Search for \"hello\" in file.txt . Ignore case distinctions while searching.",
+    "Examples": ["grep -i “hello” file.txt"]
+  },
+  {
+    "Command": "grep -v “error” file.txt",
+    "Description": "Search for \"error\" in file.txt . Invert The martch.",
+    "Examples": ["grep -v “error” file.txt"]
+  },
+  {
+    "Command": "grep -r",
+    "Description": "Search for specific patterns or regular expressions in text files or streams and display matching lines. Recursively search directories for matching patterns.",
+    "Examples": ["grep -r “pattern” directory/"]
+  },
+  {
+    "Command": "grep -l",
+    "Description": "Search for specific patterns or regular expressions in text files or streams and display matching lines. Print only the names of files containing matches.",
+    "Examples": ["grep -l “keyword” file.txt"]
+  },
+  {
+    "Command": "grep -n",
+    "Description": "Search for specific patterns or regular expressions in text files or streams and display matching lines. Display line numbers alongside matching lines.",
+    "Examples": ["grep -n “pattern” file.txt"]
+  },
+    {
+    "Command": "uname -a",
+    "Description": "Print system information. All system information.",
+    "Examples": ["uname -a"]
+  },
+  {
+    "Command": "whoami",
+    "Description": "Display current username.",
+    "Examples": ["whoami"]
+  },
+  {
+    "Command": "df -h",
+    "Description": "Show disk space usage. Human-readable sizes.",
+    "Examples": ["df -h"]
+  },
+  {
+    "Command": "du -sh directory/",
+    "Description": "Estimate file and directory sizes. Human-readable sizes. Display total size only.",
+    "Examples": ["du -sh directory/"]
+  },
+  {
+    "Command": "free -h",
+    "Description": "Display memory usage information. Human-readable sizes.",
+    "Examples": ["free -h"]
+  },
+  {
+    "Command": "uptime",
+    "Description": "Show system uptime.",
+    "Examples": ["uptime"]
+  },
+  {
+    "Command": "lscpu",
+    "Description": "Display CPU information.",
+    "Examples": ["lscpu"]
+  },
+  {
+    "Command": "lspci",
+    "Description": "List PCI devices.",
+    "Examples": ["lspci"]
+  },
+  {
+    "Command": "lsusb",
+    "Description": "List USB devices.",
+    "Examples": ["lsusb"]
+  }
+]
