@@ -13,6 +13,10 @@ This is a command-line quiz application that tests your knowledge of Linux comma
     - Navigate to the project directory in your terminal.
     
 ```bash
+   make run
+```
+Or
+```bash
    go run main.go 
 ```
 
